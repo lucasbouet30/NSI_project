@@ -4,26 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rhapsopy</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/empty.jpg') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/navbar.css') }}" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/navbar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/footer.css') }}"
+    />
   </head>
 
   <body>
     <nav class="navbar">
-      <div class="navbar-brand">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Logo" class="logo" />
-        <span class="brand-name">Rhapsopy</span>
-      </div>
+      <a href="{{ url_for('home') }}">
+        <div class="navbar-brand">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+            alt="Logo"
+            class="logo"
+          />
+          <span class="brand-name">Rhapsopy</span>
+        </div>
+      </a>
       <ul class="navbar-menu">
-        <li><a href="{{ url_for('dashboard') }}" target="_blank">Tableau de Bord</a></li>
-        <li><a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a></li>
+        <li>
+          <a href="{{ url_for('dashboard') }}" target="_blank"
+            >Tableau de Bord</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a>
+        </li>
         <li><a href="{{ url_for('outils') }}" target="_blank">Outils</a></li>
-        <li><a href="{{ url_for('planning') }}" target="_blank">Planning</a></li>
+        <li>
+          <a href="{{ url_for('planning') }}" target="_blank">Planning</a>
+        </li>
         <li><a href="{{ url_for('support') }}" target="_blank">Support</a></li>
       </ul>
       <div class="navbar-profile">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Profile" class="profile-pic" />
+        <a href="{{ url_for('profil') }}" target="_blank">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+            alt="Profile"
+            class="profile-pic"
+        /></a>
       </div>
     </nav>
 
@@ -38,11 +70,17 @@
             consequuntur, quisquam voluptate.
           </span>
         </div>
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Empty" />
+        <img
+          src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+          alt="Empty"
+        />
       </div>
 
       <div class="grid-container">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Empty" />
+        <img
+          src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+          alt="Empty"
+        />
         <div class="hero">
           <h2>Lorem ipsum dolor sit amet.</h2>
           <span>
@@ -64,11 +102,17 @@
             amet eaque. Esse vero tempore culpa asperiores, aliquid vitae non!
           </span>
         </div>
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Empty" />
+        <img
+          src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+          alt="Empty"
+        />
       </div>
 
       <div class="grid-container">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Empty" />
+        <img
+          src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+          alt="Empty"
+        />
         <div class="hero">
           <h2>Lorem ipsum dolor sit amet.</h2>
           <span>
@@ -82,6 +126,7 @@
     </main>
 
     <footer>
+      <div class="up-part"></div>
       <p>&copy; 2024 Rhapsopy. Tous droits réservés.</p>
     </footer>
   </body>
