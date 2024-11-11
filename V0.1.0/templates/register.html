@@ -4,35 +4,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rhapsopy</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/empty.jpg') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/navbar.css') }}" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/navbar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/footer.css') }}"
+    />
   </head>
 
   <body>
     <nav class="navbar">
-      <div class="navbar-brand">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Logo" class="logo" />
-        <span class="brand-name">Rhapsopy</span>
-      </div>
+      <a href="{{ url_for('home') }}">
+        <div class="navbar-brand">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+            alt="Logo"
+            class="logo"
+          />
+          <span class="brand-name">Rhapsopy</span>
+        </div>
+      </a>
       <ul class="navbar-menu">
-        <li><a href="{{ url_for('dashboard') }}" target="_blank">Tableau de Bord</a></li>
-        <li><a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a></li>
-        <li><a href="{{ url_for('outils') }}" target="_blank">Outils</a></li>
-        <li><a href="{{ url_for('planning') }}" target="_blank">Planning</a></li>
+        <li>
+          <a href="{{ url_for('dashboard') }}" target="_blank"
+            >Tableau de Bord</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a>
+        </li>
+        <li><a href="{{ url_for('tools') }}" target="_blank">Outils</a></li>
+        <li>
+          <a href="{{ url_for('planning') }}" target="_blank">Planning</a>
+        </li>
         <li><a href="{{ url_for('support') }}" target="_blank">Support</a></li>
       </ul>
       <div class="navbar-profile">
-        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Profile" class="profile-pic" />
+        <ul>
+          <a href="{{ url_for('register') }}"
+            ><li class="not-btn">Inscription</li></a
+          >
+          <a href="{{ url_for('login') }}"><li class="btn">Connexion</li></a>
+        </ul>
+        <a href="{{ url_for('profile') }}" target="_blank">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            alt="Profil Utilisateur"
+            class="profile-pic"
+        /></a>
       </div>
     </nav>
 
     <main>
-		<form method=post>
-			Email: <input name="email"><br>
-			Password: <input name="password" type=password><br>
-			<button>Register</button>
-		</form>
+      <form method="post">
+        Email: <input name="email" /><br />
+        Password: <input name="password" type="password" /><br />
+        <button>Register</button>
+      </form>
     </main>
 
     <footer>
