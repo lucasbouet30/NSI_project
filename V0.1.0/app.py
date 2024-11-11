@@ -166,7 +166,7 @@ def loginp():
     flash("Welcome back !")
     # et on login l'user grâce à cette fonction
     flask_login.login_user(user)
-    return redirect(url_for("outils"))
+    return redirect(url_for("tools"))
     
 # END login pages / methods
 
