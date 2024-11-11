@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhapsopy</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/empty.jpg') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/navbar.css') }}" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Logo" class="logo" />
+        <span class="brand-name">Rhapsopy</span>
+      </div>
+      <ul class="navbar-menu">
+        <li><a href="{{ url_for('dashboard') }}" target="_blank">Tableau de Bord</a></li>
+        <li><a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a></li>
+        <li><a href="{{ url_for('outils') }}" target="_blank">Outils</a></li>
+        <li><a href="{{ url_for('planning') }}" target="_blank">Planning</a></li>
+        <li><a href="{{ url_for('support') }}" target="_blank">Support</a></li>
+      </ul>
+      <div class="navbar-profile">
+        <img src="{{ url_for('static', filename='assets/images/empty.jpg') }}" alt="Profile" class="profile-pic" />
+      </div>
+    </nav>
+
+    <main>
+		
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Rhapsopy. Tous droits réservés.</p>
+    </footer>
+  </body>
+</html>
