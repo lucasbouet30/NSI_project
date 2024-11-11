@@ -179,6 +179,7 @@ def loginp():
 #-
 @app.route('/')
 def home():
+    # Rendre le template "index.html"
     return render_template('index.html')
     
 @app.route('/learning')
@@ -189,9 +190,9 @@ def learning():
 def dashboard():
     return render_template('dashboard.html')
     
-@app.route('/outils')
-def outils():
-    return render_template('outils.html')
+@app.route('/tools')
+def tools():
+    return render_template('tools.html')
     
 @app.route('/planning')
 def planning():
@@ -200,10 +201,22 @@ def planning():
 @app.route('/support')
 def support():
     return render_template('support.html')
-    
+
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')
     
 # END rendering webpages
 
