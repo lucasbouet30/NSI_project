@@ -39,6 +39,7 @@ class User(flask_login.UserMixin): # type : user
         # méthode pour return quelque chose pour le débug
         return f"{self.id} | {self.password}"
         
+        
 # création d'une fonction permetant de hasher les mots de passes (str -> str)
 # plus sécurisé / mots de passes cryptés et non en clair
 def hash_it(data):
@@ -78,7 +79,7 @@ print(users)
 print(varDB)
 # la modifier avec juste un seul utilisateur pour le test 
 varDB = {'test@gmail.com': {"el1":"coco", "el2":"cucu"}}
-users = {'test@gmail.com':User('test',hash_it("testtest123."))}
+users = {'test@gmail.com':User('test@gmail.com',hash_it("testtest123."))}
 # sauvegarder les données dans le fichier
 savemods()
 savedata()
@@ -145,6 +146,7 @@ def login():
 @app.route("/logout")
 @flask_login.login_required
 def logout():
+    session['logged_in'] = False
     flask_login.logout_user()
     # déconexion de l'utilisateur grâce à cette fonction
     flash("You have been logged out")
@@ -164,7 +166,9 @@ def loginp():
         return redirect(url_for("login"))
     # sinon on affiche la page
     flash("Welcome back !")
+    session['logged_in'] = True
     # et on login l'user grâce à cette fonction
+    print(user)
     flask_login.login_user(user)
     return redirect(url_for("tools"))
     
@@ -192,6 +196,7 @@ def dashboard():
     
 @app.route('/tools')
 def tools():
+    print(session['logged_in'])
     return render_template('tools.html')
     
 @app.route('/planning')
