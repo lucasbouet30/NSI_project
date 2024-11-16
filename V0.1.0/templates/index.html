@@ -54,7 +54,11 @@
           <a href="{{ url_for('register') }}"
             ><li class="not-btn">Inscription</li></a
           >
-          <a href="{{ url_for('login') }}"><li class="btn">Connexion</li></a>
+          {% if not session['logged_in'] %}
+            <a href="{{ url_for('login') }}"><li class="btn">Connexion</li></a>
+		      {% else %}
+		        <a href="{{ url_for('logout') }}"><li class="btn">Déconnexion</li></a>
+		      {% endif %}
         </ul>
         <a href="{{ url_for('profile') }}" target="_blank">
           <img
