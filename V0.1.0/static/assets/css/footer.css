@@ -1,54 +1,34 @@
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.brand-name {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #333;
-}
-
-.navbar-menu {
-  display: flex;
+.footer {
+  /* background-color: #0d0d0d; */
+  color: #000000;
+  padding: 1%;
+  text-align: center;
   list-style-type: none;
-  margin: 0;
+}
+
+.footer li {
+  list-style-type: none;
+}
+
+.footer-links {
+  list-style-type: none;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.navbar-menu li {
-  margin: 0 15px;
+.footer-links li {
+  display: inline-flex;
+  margin: 0.8% 0.7%;
+  align-items: center;
 }
 
-.navbar-menu a {
+.logo-footer {
+  margin-right: 5px;
+}
+
+.footer-links a {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.navbar-menu a:hover {
-  color: #007bff;
-}
-
-.profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+  color: #000000;
 }
