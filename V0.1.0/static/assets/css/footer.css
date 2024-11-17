@@ -31,3 +31,8 @@
   text-decoration: none;
   color: #000000;
 }
+
+.footer-links a:hover {
+  text-decoration: none;
+  color: #007bff;
+}
