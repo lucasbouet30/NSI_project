@@ -6,10 +6,12 @@
 * {
   margin: 0;
   border: 0;
+  font-family: "Libre Franklin", sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: "Libre Franklin", serif;
+  font-family: "Libre Franklin", sans-serif;
   min-height: 100vh;
 }
 
@@ -44,18 +46,4 @@ h2 {
 
 .hero span {
   font-size: 1.4rem;
-}
-
-footer {
-  text-align: center;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
 }
