@@ -31,6 +31,10 @@ h2 {
   font-size: 3.2rem;
 }
 
+.in-build {
+  text-align: center;
+}
+
 .grid-container {
   margin-top: 2vw;
   display: grid;
