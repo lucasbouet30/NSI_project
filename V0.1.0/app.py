@@ -170,7 +170,7 @@ def loginp():
     # et on login l'user grâce à cette fonction
     print(user)
     flask_login.login_user(user)
-    return redirect(url_for("tools"))
+    return redirect(url_for("profile"))
     
 # END login pages / methods
 
@@ -196,7 +196,6 @@ def dashboard():
     
 @app.route('/tools')
 def tools():
-    print(session['logged_in'])
     return render_template('tools.html')
     
 @app.route('/planning')
@@ -209,6 +208,7 @@ def support():
 
 @app.route('/profile')
 def profile():
+    print(session['logged_in'])
     return render_template('profile.html')
     
 # END rendering webpages
