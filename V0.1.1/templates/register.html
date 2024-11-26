@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhapsopy</title>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/navbar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/footer.css') }}"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">
+        <div class="navbar-brand">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+            alt="Logo"
+            class="logo"
+          />
+          <span class="brand-name">Rhapsopy</span>
+        </div>
+      </a>
+      <ul class="navbar-menu">
+        <li>
+          <a href="{{ url_for('dashboard') }}" target="_blank"
+            >Tableau de Bord</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a>
+        </li>
+        <li><a href="{{ url_for('tools') }}" target="_blank">Outils</a></li>
+        <li>
+          <a href="{{ url_for('planning') }}" target="_blank">Planning</a>
+        </li>
+        <li><a href="{{ url_for('support') }}" target="_blank">Support</a></li>
+      </ul>
+      <div class="navbar-profile">
+        <ul>
+          <a href="{{ url_for('register') }}"
+            ><li class="not-btn">Inscription</li></a
+          >
+          {% if not session['logged_in'] %}
+            <a href="{{ url_for('login') }}"><li class="btn">Connexion</li></a>
+		      {% else %}
+		        <a href="{{ url_for('logout') }}"><li class="btn">Déconnexion</li></a>
+		      {% endif %}
+        </ul>
+        <a href="{{ url_for('profile') }}" target="_blank">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            alt="Profil Utilisateur"
+            class="profile-pic"
+        /></a>
+      </div>
+    </nav>
+
+    <main>
+      <form method="post">
+        Email: <input name="email" /><br />
+        Password: <input name="password" type="password" /><br />
+        <button>Register</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Rhapsopy. Tous droits réservés.</p>
+    </footer>
+  </body>
+</html>
