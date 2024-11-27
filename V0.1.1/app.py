@@ -158,7 +158,7 @@ def logout():
 def loginp():
     # on récupère l'user correspondant à l'email (si il n'y en a pas, user = None)
     user = users.get(request.form["email"])
-    
+    remind = request.form["remindme"]
     # vérification si, quelque chose est rentré ou, si le mot de passe crypté ne match pas avec celui de crypé dans la database
     if user is None or user.password != hash_it(request.form["password"]):
         # petite alerte pour indiquer que c'est faux
@@ -169,7 +169,7 @@ def loginp():
     session['logged_in'] = True
     # et on login l'user grâce à cette fonction
     print(user)
-    flask_login.login_user(user)
+    flask_login.login_user(user,remember=remind)
     return redirect(url_for("profile"))
     
 # END login pages / methods
