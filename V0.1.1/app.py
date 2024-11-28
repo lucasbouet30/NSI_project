@@ -158,7 +158,8 @@ def logout():
 def loginp():
     # on récupère l'user correspondant à l'email (si il n'y en a pas, user = None)
     user = users.get(request.form["email"])
-    remind = request.form["remindme"]
+    remind = False if [] == request.form.getlist("remindme") else True
+    print(f"remind me : {remind}")
     # vérification si, quelque chose est rentré ou, si le mot de passe crypté ne match pas avec celui de crypé dans la database
     if user is None or user.password != hash_it(request.form["password"]):
         # petite alerte pour indiquer que c'est faux
@@ -206,6 +207,7 @@ def planning():
 def support():
     return render_template('support.html')
 
+@flask_login.login_required
 @app.route('/profile')
 def profile():
     print(session['logged_in'])
