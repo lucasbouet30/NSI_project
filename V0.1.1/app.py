@@ -182,9 +182,15 @@ def loginp():
 #-
 # permet de créer toutes les pages côté serveur
 #-
+
+server_on_start = False
 @app.route('/')
 def home():
+    global server_on_start
     # Rendre le template "index.html"
+    if server_on_start == False:
+        session['logged_in'] = False
+        server_on_start = True
     return render_template('index.html')
     
 @app.route('/learning')
@@ -207,9 +213,18 @@ def planning():
 def support():
     return render_template('support.html')
 
+@app.route('/403')
+def err403():
+    return render_template('errors/403.html')
+
 @flask_login.login_required
 @app.route('/profile')
 def profile():
+    try :
+        if session['logged_in'] == False:
+            return redirect('403')
+    except :
+        return redirect('403')
     print(session['logged_in'])
     return render_template('profile.html')
     
