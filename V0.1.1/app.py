@@ -7,6 +7,9 @@ import json
 import pickle
 import hashlib
 import re
+import os
+print("Current working directory:", os.getcwd())
+
 
 # END packages
 
