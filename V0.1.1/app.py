@@ -55,6 +55,10 @@ def hash_it(data):
 users = {'test@gmail.com': User('test@gmail.com', hash_it("testtest123."))}
 with open('data/users.pkl', 'wb') as file:
     pickle.dump(users, file)
+
+varDB = {'test@gmail.com': {"el1":"coco", "el2":"cucu"}}
+with open('data/vars.pkl', 'wb') as file:
+    pickle.dump(users, file)
 # end
 
 
