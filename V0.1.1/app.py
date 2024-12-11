@@ -4,7 +4,7 @@
 from flask import *
 import flask_login
 import json
-import pickle
+import dill as pickle
 import hashlib
 import re
 import os
