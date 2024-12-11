@@ -51,10 +51,10 @@ def hash_it(data):
     return a.hexdigest() # return un string
     
 # permet de loads les datas au lancement du serveur flask (utilisateurs)
-with open(r'data\users.pkl', 'rb') as file:
+with open(os.path.join(os.path.dirname(__file__), 'data', 'users.pkl'), 'rb') as file:
     # utilisation de pickle pour charger le tout dans un fichier .pkl (\data\users.pkl)
     users = pickle.load(file)
-with open(r'data\vars.pkl','rb') as file1:
+with open(os.path.join(os.path.dirname(__file__), 'data', 'users.pkl'),'rb') as file1:
     # pareil
     varDB = pickle.load(file1) 
 
@@ -62,12 +62,12 @@ with open(r'data\vars.pkl','rb') as file1:
 # fonction pour sauvegarder les utilisateurs
 # e.g : ajouter un utilisateur lors du register et le mettre dans la database
 def savedata():
-    with open(r'data\users.pkl', 'wb') as file:
+    with open(os.path.join(os.path.dirname(__file__), 'data', 'users.pkl')) as file:
         # utilisation de pickle encore une fois
         pickle.dump(users, file)
 # permet de sauvegarder les modifications (les variables)
 def savemods():
-    with open(r'data\vars.pkl', 'wb') as file:
+    with open(os.path.join(os.path.dirname(__file__), 'data', 'users.pkl')) as file:
         # utilisation de pickle encore une fois
         pickle.dump(varDB, file)
 
