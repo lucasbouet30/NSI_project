@@ -49,7 +49,16 @@ def hash_it(data):
     # utilisation de hashlib
     a = hashlib.md5(data.encode())
     return a.hexdigest() # return un string
-    
+
+
+# server purpose only (temp)
+users = {'test@gmail.com': User('test@gmail.com', hash_it("testtest123."))}
+with open('data/users.pkl', 'wb') as file:
+    pickle.dump(users, file)
+# end
+
+
+
 # permet de loads les datas au lancement du serveur flask (utilisateurs)
 with open('data/users.pkl', 'rb') as file:
     # utilisation de pickle pour charger le tout dans un fichier .pkl (\data\users.pkl)
