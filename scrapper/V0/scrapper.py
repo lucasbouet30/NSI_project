@@ -64,7 +64,7 @@ class Scrapper:
         return f"<iframe width='{w}' height='{h}' title='{t}' class='{class_}' src='{default}'></iframe>"
 
 
- # tests   
+# tests   
 #scrapper = Scrapper("bones imagine dragon")
 #links = scrapper.load_link()
 #print(links)
