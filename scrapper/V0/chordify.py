@@ -17,6 +17,7 @@ class Chord :
 		temp_ = temp.replace("xxxx",str(n))
 		return temp_
 
-a = Chord("Emajor")
-a.init_()
-print(a.format_html(2))
+# tests
+#a = Chord("Emajor")
+#a.init_()
+#print(a.format_html(2))
