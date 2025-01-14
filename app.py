@@ -1,6 +1,6 @@
 # START packages
 
-# importation des tous les packets (pip install -r requirements.txt)
+# importation des tout les packets (pip install -r requirements.txt)
 from flask import *
 import flask_login
 import json
@@ -8,9 +8,10 @@ import dill as pickle
 import hashlib
 import re
 import os
-from keep_alive import keep_alive 
+import minechordify as chordify
+import minescrapper as scrapper
+import minefa2 as fa2
 print("Current working directory:", os.getcwd())
-
 
 # END packages
 
@@ -34,10 +35,14 @@ login_manager.init_app(app)
 
 # creation d'une classe pour définir qu'est ce qu'un user (couple email / mot de passe)
 class User(flask_login.UserMixin): # type : user
-    def __init__(self, email, password):
+    def __init__(self, email, password, discordId=101):
         # constructeur pour indiquer les infos
         self.id = email
         self.password = password
+        self.discordId = discordId
+        
+    def reset_mdp(self, passw):
+        self.password = hash_it(passw)
         
     def __str__(self):
         # méthode pour return quelque chose pour le débug
@@ -53,7 +58,7 @@ def hash_it(data):
 
 
 # server purpose only (temp)
-users = {'test@gmail.com': User('test@gmail.com', hash_it("testtest123."))}
+users = {'test@gmail.com': User('test@gmail.com', hash_it("testtest123."), 600288096046678036)}
 with open('data/users.pkl', 'wb') as file:
     pickle.dump(users, file)
 
@@ -96,7 +101,7 @@ print(users)
 print(varDB)
 # la modifier avec juste un seul utilisateur pour le test 
 varDB = {'test@gmail.com': {"el1":"coco", "el2":"cucu"}}
-users = {'test@gmail.com':User('test@gmail.com',hash_it("testtest123."))}
+users = {'test@gmail.com':User('test@gmail.com',hash_it("testtest123."), 600288096046678036)}
 # sauvegarder les données dans le fichier
 savemods()
 savedata()
@@ -123,6 +128,7 @@ def registerp():
     # on récupère les entrées utilisateur
     email = request.form["email"]
     password = request.form["password"]
+    typed_discord_id = request.form["discord-id"]
     # on vérifie si l'email est un format valide soit : 
     # une partie alphanumérique avec lettres nombres et "." 
     # un @
@@ -135,9 +141,14 @@ def registerp():
             # on check si le mot de passe est assez grand (hé ouaip le truc chiant)
             if len(password) > 7:
                 # on append l'utilisateur dans la database
-                users[email] = User(email,hash_it(password)) # en le chiffrant et oui chef
-                savedata()
-                print(users)
+                if typed_discord_id != None and typed_discord_id != 0:
+                    users[email] = User(email,hash_it(password), typed_discord_id) # en le chiffrant et oui chef
+                    savedata()
+                    print(users)
+                else:
+                    users[email] = User(email,hash_it(password)) # en le chiffrant et oui chef
+                    savedata()
+                    print(users)
                 # on le redirige vers la page de login
                 return redirect(url_for("login"))
                 
@@ -173,24 +184,77 @@ def logout():
 # la page de login côté logique et server
 @app.post("/login")
 def loginp():
-    # on récupère l'user correspondant à l'email (si il n'y en a pas, user = None)
+    LOGIN_ERROR = None
+
+    # Retrieve user based on email (safe handling of potential None value)
     user = users.get(request.form["email"])
-    remind = False if [] == request.form.getlist("remindme") else True
-    print(f"remind me : {remind}")
-    # vérification si, quelque chose est rentré ou, si le mot de passe crypté ne match pas avec celui de crypé dans la database
-    if user is None or user.password != hash_it(request.form["password"]):
-        # petite alerte pour indiquer que c'est faux
-        flash("Incorrect password or email")
-        return redirect(url_for("login"))
-    # sinon on affiche la page
-    flash("Welcome back !")
+
+    # Extract "remindme" checkbox value (improved handling of empty list)
+    remind = request.form.getlist("rememberme")  # Returns an empty list if not checked
+    remind = remind[0] if remind else False  # Extract first element (if present) or set to False
+
+    # Validate credentials and handle errors gracefully
+    if user is None:
+        LOGIN_ERROR = "Invalid email or account not found."
+    elif not user.password == hash_it(request.form["password"]):
+        LOGIN_ERROR = "Incorrect password."
+
+    if LOGIN_ERROR is not None:
+        # Flash error message for display on login page
+        flash(LOGIN_ERROR, 'error')  # Specify category for styling (optional)
+        return redirect(url_for("login"))  # Redirect back to login page
+
+    # Successful login:
+    flash("Welcome back!", 'success')  # Flash success message for display
     session['logged_in'] = True
-    # et on login l'user grâce à cette fonction
-    print(user)
-    flask_login.login_user(user,remember=remind)
-    return redirect(url_for("profile"))
+    flask_login.login_user(user, remember=remind)
+    return redirect(url_for("profile"))  # Redirect to profile page
     
 # END login pages / methods
+
+@app.post("/2fareset")
+def fa2resetp():
+    if request.method == 'POST':
+        ERROR_CODE = None
+        DISPLAY_FORM = None
+        if 'send_message' in request.form:
+            # fa2.send_2fa()
+            # users = {'test@gmail.com': User('test@gmail.com', hash_it("testtest123."), 1123456677654432)}
+            email = request.form["email"]
+            print(email == "")
+            if email != "" and email in users:
+                global current_user_2fa
+                current_user_2fa = users.get(email)
+                user_discord_id = current_user_2fa.discordId
+                global code_generated
+                print(user_discord_id)
+                code_generated = fa2.send_2fa(str(user_discord_id))
+                print(code_generated)
+                if code_generated == 101:
+                    flash("invalid discord id", "errormail")
+            else:
+                ERROR_CODE = "Invalid email or empty email"
+                flash(ERROR_CODE, 'erroremail')
+                print(f"flashed {ERROR_CODE}")
+                return redirect(url_for("fa2reset"))
+            
+        elif 'validate_code' in request.form:
+            code_typed = request.form['input_code']
+            print(code_typed)
+            if code_generated == code_typed:
+                DISPLAY_FORM = "ok"
+            else:
+                DISPLAY_FORM = "Invalid or empty code"
+                
+            flash(DISPLAY_FORM, "validcode")
+            
+        elif 'reset_password' in request.form:
+            new_password = request.form['mdp']
+            current_user_2fa.reset_mdp(new_password)
+            return redirect(url_for("login"))
+            
+            
+    return redirect(url_for("fa2reset"))
 
 # ----------
 
@@ -226,6 +290,10 @@ def tools():
 def planning():
     return render_template('planning.html')
     
+@app.route('/2fareset')
+def fa2reset():
+    return render_template('2fareset.html')
+    
 @app.route('/support')
 def support():
     return render_template('support.html')
@@ -246,19 +314,6 @@ def profile():
     return render_template('profile.html')
     
 # END rendering webpages
-
-# ----------
-
-# simuler une activité régulière sur render
-# on peut de ce fait avoir un site toujours actif (host sur render gratuit)
-def run():
-  app.run(host='0.0.0.0', port=8080)
-
-def keep_alive():
-  t = Thread(target=run)
-  t.start()
-
-keep_alive()
 
 # ----------
 
