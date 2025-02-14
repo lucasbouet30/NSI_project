@@ -5,5 +5,4 @@ gunicorn
 discord
 python-dotenv
 bs4
-sqlite3
 requests
