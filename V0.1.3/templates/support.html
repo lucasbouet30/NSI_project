@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhapsopy</title>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='assets/images/empty.jpg') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/navbar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/footer.css') }}"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">
+        <div class="navbar-brand">
+          <svg
+            class="logo"
+            fill="none"
+            height="300"
+            viewBox="0 0 24 24"
+            width="300"
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlns:svgjs="http://svgjs.dev/svgjs"
+          >
+            <g width="100%" height="100%" transform="matrix(1,0,0,1,0,0)">
+              <path
+                clip-rule="evenodd"
+                d="m13.4373 1.62681c-.8621-.29815-1.5966.24505-2.1431.77703-.5822.56683-1.2747 1.4483-2.13235 2.53983l-.00001.00001-.03887.04947-3.66208 4.66084-.03873.04928-.00001.00002c-.63015.80191-1.15515 1.47011-1.47305 2.02421-.32014.558-.56908 1.2358-.23409 1.925.335.6893 1.02174.9123 1.65833 1.0053.63212.0924 1.48186.0924 2.50177.0923h.06268 1.06209c.09908 0 .17939.0001.24884.0012.00112.0694.00116.1497.00116.2488v2.0609.0629c-.00003 1.3881-.00005 2.5091.10758 3.3145.101.7559.34298 1.6369 1.20504 1.935.862.2982 1.5966-.245 2.143-.777.5822-.5668 1.2748-1.4483 2.1324-2.5398l.0389-.0495 3.6621-4.6608.0387-.0493c.6301-.802 1.1552-1.4701 1.4731-2.0243.3201-.558.569-1.2358.234-1.925-.335-.68924-1.0217-.91223-1.6583-1.00527-.6321-.09238-1.4818-.09235-2.5018-.09231h-.0626-1.0621c-.0991 0-.1794-.00003-.2489-.00115-.0011-.06946-.0011-.14977-.0011-.24885v-2.06084-.06292c0-1.38814 0-2.50913-.1076-3.31455-.101-.75591-.343-1.63684-1.205-1.935z"
+                fill="#ffaf0f"
+                fill-rule="evenodd"
+                fill-opacity="1"
+                data-original-color="#000000ff"
+                stroke="none"
+                stroke-opacity="1"
+              />
+            </g>
+          </svg>
+          <span class="brand-name">Rhapsopy</span>
+        </div>
+      </a>
+      <ul class="navbar-menu">
+        <li>
+          <a href="{{ url_for('dashboard') }}" target="_blank"
+            >Tableau de Bord</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('learning') }}" target="_blank">Apprentissage</a>
+        </li>
+        <li><a href="{{ url_for('tools') }}" target="_blank">Outils</a></li>
+        <li>
+          <a href="{{ url_for('planning') }}" target="_blank">Planning</a>
+        </li>
+        <li><a href="{{ url_for('support') }}" target="_blank">Support</a></li>
+      </ul>
+      <div class="navbar-profile">
+        <ul>
+          <a href="{{ url_for('register') }}"
+            ><li class="not-btn">Inscription</li></a
+          >
+          {% if not session['logged_in'] %}
+          <a href="{{ url_for('login') }}"><li class="btn">Connexion</li></a>
+          {% else %}
+          <a href="{{ url_for('logout') }}"><li class="btn">Déconnexion</li></a>
+          {% endif %}
+        </ul>
+        <a href="{{ url_for('profile') }}" target="_blank">
+          <img
+            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            alt="Profil Utilisateur"
+            class="profile-pic"
+        /></a>
+      </div>
+    </nav>
+
+    <main>
+      <h1 class="in-build">In Building...</h1>
+      <h3 class="in-build">In Building...</h3>
+      <p class="in-build">In Building...</p>
+      <h3 class="in-build">In Building...</h3>
+      <h1 class="in-build">In Building...</h1>
+      <h3 class="in-build">In Building...</h3>
+      <p class="in-build">In Building...</p>
+      <h3 class="in-build">In Building...</h3>
+      <h1 class="in-build">In Building...</h1>
+      <h3 class="in-build">In Building...</h3>
+      <p class="in-build">In Building...</p>
+      <h3 class="in-build">In Building...</h3>
+      <h1 class="in-build">In Building...</h1>
+      <h3 class="in-build">In Building...</h3>
+      <p class="in-build">In Building...</p>
+      <h3 class="in-build">In Building...</h3>
+      <h1 class="in-build">In Building...</h1>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <ul>
+          <li>
+            <p>Prototype en cours de développement...</p>
+          </li>
+          <li>
+            <ul class="footer-links">
+              <li>
+                <svg
+                  class="logo-footer"
+                  fill="none"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xmlns:svgjs="http://svgjs.dev/svgjs"
+                >
+                  <g width="100%" height="100%" transform="matrix(1,0,0,1,0,0)">
+                    <path
+                      clip-rule="evenodd"
+                      d="m13.4373 1.62681c-.8621-.29815-1.5966.24505-2.1431.77703-.5822.56683-1.2747 1.4483-2.13235 2.53983l-.00001.00001-.03887.04947-3.66208 4.66084-.03873.04928-.00001.00002c-.63015.80191-1.15515 1.47011-1.47305 2.02421-.32014.558-.56908 1.2358-.23409 1.925.335.6893 1.02174.9123 1.65833 1.0053.63212.0924 1.48186.0924 2.50177.0923h.06268 1.06209c.09908 0 .17939.0001.24884.0012.00112.0694.00116.1497.00116.2488v2.0609.0629c-.00003 1.3881-.00005 2.5091.10758 3.3145.101.7559.34298 1.6369 1.20504 1.935.862.2982 1.5966-.245 2.143-.777.5822-.5668 1.2748-1.4483 2.1324-2.5398l.0389-.0495 3.6621-4.6608.0387-.0493c.6301-.802 1.1552-1.4701 1.4731-2.0243.3201-.558.569-1.2358.234-1.925-.335-.68924-1.0217-.91223-1.6583-1.00527-.6321-.09238-1.4818-.09235-2.5018-.09231h-.0626-1.0621c-.0991 0-.1794-.00003-.2489-.00115-.0011-.06946-.0011-.14977-.0011-.24885v-2.06084-.06292c0-1.38814 0-2.50913-.1076-3.31455-.101-.75591-.343-1.63684-1.205-1.935z"
+                      fill="#000000ff"
+                      fill-rule="evenodd"
+                      fill-opacity="1"
+                      stroke="none"
+                      stroke-opacity="1"
+                    />
+                  </g>
+                </svg>
+                <span>© 2024 Rhapsopy.</span>
+              </li>
+              <li><a href="{{ url_for('support') }}">Support</a></li>
+              <li>
+                <a href="https://github.com/lucasbouet30/NSI_project">GitHub</a>
+              </li>
+              <li>
+                <a
+                  href="{{ url_for('static', filename='assets/images/blueprints.pdf') }}"
+                  target="_blank"
+                  >Croquis</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{{ url_for('static', filename='assets/images/logo.svg') }}"
+                  >Logo</a
+                >
+              </li>
+              <li><a href="#">Easter Egg</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
