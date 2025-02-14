@@ -5,3 +5,4 @@ gunicorn
 discord
 bs4
 python-dotenv
+requests
