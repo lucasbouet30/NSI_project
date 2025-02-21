@@ -213,7 +213,7 @@ def loginp():
     user = User(*user_data)
     session["logged_in"] = True
     flask_login.login_user(user, remember=remind)
-    flash("Welcome back!")
+    flash("Bon retour parmis nous!")
     return redirect(url_for("profile"))
     
 # END login pages / methods
@@ -252,7 +252,7 @@ def fa2resetp():
                 if code_generated == 101:
                     flash("invalid discord id", "errormail")
             else:
-                ERROR_CODE = "Invalid email or empty email"
+                ERROR_CODE = "Invalide email ou email vide"
                 flash(ERROR_CODE, 'erroremail')
                 print(f"flashed {ERROR_CODE}")
                 return redirect(url_for("fa2reset"))
