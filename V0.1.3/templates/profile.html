@@ -20,6 +20,10 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='assets/css/footer.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/profile.css') }}"
+    />
   </head>
 
   <body>
@@ -89,23 +93,37 @@
     </nav>
 
     <main>
-      <h1 class="in-build">In Building...</h1>
-      <h3 class="in-build">In Building...</h3>
-      <p class="in-build">In Building...</p>
-      <h3 class="in-build">In Building...</h3>
-      <h1 class="in-build">In Building...</h1>
-      <h3 class="in-build">In Building...</h3>
-      <p class="in-build">In Building...</p>
-      <h3 class="in-build">In Building...</h3>
-      <h1 class="in-build">In Building...</h1>
-      <h3 class="in-build">In Building...</h3>
-      <p class="in-build">In Building...</p>
-      <h3 class="in-build">In Building...</h3>
-      <h1 class="in-build">In Building...</h1>
-      <h3 class="in-build">In Building...</h3>
-      <p class="in-build">In Building...</p>
-      <h3 class="in-build">In Building...</h3>
-      <h1 class="in-build">In Building...</h1>
+      <div class="stack">
+        <div class="banner-container">
+          <div class="banner">
+            <img
+              src="{{ url_for('static', filename='assets/images/Banner.png') }}"
+              alt="Bannière Utilisateur"
+            />
+          </div>
+        </div>
+
+        <div class="pfp-grid">
+          <div class="pfp-container">
+            <img
+              src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+              alt="Profil Utilisateur"
+              class="pfp"
+            />
+          </div>
+          <div class="user-title"><i>alias</i> TitreLorem Ipsumus</div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="fisrt-section">
+            <div class="pseudo">John Wick</div>
+          </div>
+
+          <div class="second-section">
+            <div></div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="footer">
