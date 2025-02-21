@@ -97,27 +97,26 @@
           type="password"
           placeholder="min: 7 cara. & 1 nb"
         /><br />
-		Se souvenir de moi :
-		<input
-		  type="checkbox"
+        Se souvenir de moi :
+        <input
+          type="checkbox"
           id="remindme"
           name="remindme"
-          value="remindme"/><br />
+          value="remindme"
+        /><br />
         <button>Connexion</button>
       </form>
-	  {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for category, message in messages %}
-                    <li {% if category %} class="{{ category }}" {% endif %}>
-                        <p style="color: red;">{{ message }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-      {% endwith %}
-	  Forgotten your password?
-	  <a href="{{ url_for('fa2reset') }}" target="_blank">Support</a>
+      {% with messages = get_flashed_messages(with_categories=True) %} {% if
+      messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+        <li {% if category %} class="{{ category }}" {% endif %}>
+          <p style="color: red">{{ message }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %} 
+      <a href="{{ url_for('fa2reset') }}" target="_blank">Mot de passe oublié ?</a>
     </main>
 
     <footer class="footer">
