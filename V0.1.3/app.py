@@ -192,7 +192,8 @@ def login():
     # flask render_template method
     return render_template('login.html')
     
-    
+print('Compte test : \n test@gmail.com \n testtest123.') #pour avoir le compte test sur le terminal coté dev
+
 # la page de login côté logique et server
 @app.post("/login")
 def loginp():
