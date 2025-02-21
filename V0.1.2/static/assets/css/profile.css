@@ -1,0 +1,79 @@
+.stack {
+  position: relative;
+  width: 100%;
+  top: 2vw;
+  margin-bottom: 6vw;
+}
+
+/* bannière */
+.banner-container {
+  width: 100%;
+  height: 15vw; /* même hauteur que la pfp */
+  overflow: hidden; /* crop les bords */
+}
+.banner {
+  height: 100%;
+}
+.banner img {
+  margin-left: 10vw;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* photo de profil */
+.pfp-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 25.5% 74.5%;
+  width: 100%;
+}
+.pfp-container {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* ratio carré */
+  position: relative;
+}
+.pfp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1vw #fff;
+}
+.pfp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.user-title {
+  align-content: end;
+  margin-left: 1.5vw;
+  margin-bottom: 1%;
+  font-size: 3vw;
+  letter-spacing: 0.1vw;
+}
+
+/* reste du profil */
+.profile-grid {
+  margin-top: 9%;
+  display: grid;
+  grid-template-columns: 25.5% 74.5%;
+}
+
+/* bord gauche */
+.first-section {
+  width: 100%;
+}
+.pseudo {
+  font-size: 3vw;
+  text-align: center;
+}
+
+/* bord droit */
+.first-section {
+  width: 100%;
+}

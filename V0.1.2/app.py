@@ -152,7 +152,7 @@ def registerp():
                 # on le redirige vers la page de login
                 return redirect(url_for("login"))
                 
-    # bref tout les else
+    # bref tous les else
     
             else:
                 flash("password must be greater than 7 characters")
@@ -205,12 +205,14 @@ def loginp():
         return redirect(url_for("login"))  # Redirect back to login page
 
     # Successful login:
-    flash("Welcome back!", 'success')  # Flash success message for display
+    flash("Bon retour parmis nous !", 'success')  # Flash success message for display
     session['logged_in'] = True
     flask_login.login_user(user, remember=remind)
     return redirect(url_for("profile"))  # Redirect to profile page
     
 # END login pages / methods
+
+print('Compte test : \n test@gmail.com \n testtest123.')
 
 @app.post("/2fareset")
 def fa2resetp():
@@ -233,7 +235,7 @@ def fa2resetp():
                 if code_generated == 101:
                     flash("invalid discord id", "errormail")
             else:
-                ERROR_CODE = "Invalid email or empty email"
+                ERROR_CODE = "Invalide email ou email vide"
                 flash(ERROR_CODE, 'erroremail')
                 print(f"flashed {ERROR_CODE}")
                 return redirect(url_for("fa2reset"))
@@ -324,3 +326,4 @@ if __name__ == '__main__':
     app.run(debug=True)
     
 # END flask server starting
+
