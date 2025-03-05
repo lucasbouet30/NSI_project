@@ -51,10 +51,12 @@
 }
 .user-title {
   align-content: end;
-  margin-left: 1.5vw;
-  margin-bottom: 1%;
+  margin-left: 2.5vw;
   font-size: 3vw;
   letter-spacing: 0.1vw;
+}
+.user-title i {
+  font-size: 70%;
 }
 
 /* reste du profil */
@@ -76,4 +78,27 @@
 /* bord droit */
 .first-section {
   width: 100%;
+}
+
+/* badge de niveau */
+.second-section {
+  position: absolute;
+  margin-left: 12.9vw;
+  margin-top: -17vw;
+}
+.badge-container {
+  position: relative;
+  display: inline-block;
+}
+.lvl-badge {
+  width: 10vw;
+}
+.level-text {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2vw;
+  font-weight: bold;
+  color: #422b1c;
 }
