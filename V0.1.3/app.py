@@ -212,6 +212,7 @@ def loginp():
         return redirect(url_for("login"))
     
     user = User(*user_data)
+    session["current_user"] = user
     session["logged_in"] = True
     flask_login.login_user(user, remember=remind)
     flash("Bon retour parmis nous!")
