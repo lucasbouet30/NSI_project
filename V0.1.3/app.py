@@ -12,9 +12,12 @@ import os
 import minechordify as chordify
 import minescrapper as scrapper
 import minefa2 as fa2
+import leveling
 print("Current working directory:", os.getcwd())
 
 RESET = True
+
+user_level = leveling.leveling()
         
 # création d'une fonction permetant de hasher les mots de passes (str -> str)
 # plus sécurisé / mots de passes cryptés et non en clair
@@ -212,6 +215,7 @@ def loginp():
         return redirect(url_for("login"))
     
     user = User(*user_data)
+    session["current_user"] = email
     session["logged_in"] = True
     flask_login.login_user(user, remember=remind)
     flash("Bon retour parmis nous!")
@@ -330,6 +334,14 @@ def support():
 def err403():
     return render_template('errors/403.html')
 
+@app.route('/404')
+def err404():
+    return render_template('errors/404.html')
+
+@app.route('/500')
+def err500():
+    return render_template('errors/5.html')
+
 @flask_login.login_required
 @app.route('/profile')
 def profile():
@@ -338,8 +350,22 @@ def profile():
             return redirect('403')
     except :
         return redirect('403')
+    
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Xp FROM Users WHERE Email=?', (session["current_user"],)) 
+    exp = cur.fetchone() # récuperer l'exp
+
+    cur.execute('SELECT Email FROM Users WHERE Email=?', (session["current_user"],)) 
+    email = cur.fetchone() # récuperer l'email
+    con.close()
+
+    user_title= user_level.get_title(exp[0]) # récuperer le titre
+    user_badge= user_level.get_badge(exp[0]) # récuperer le badge
+    username = user_level.find_username(email[0]) # récuperer l'username
+
     print(session['logged_in'])
-    return render_template('profile.html')
+    return render_template('profile.html', exp=exp[0], user_title=user_title, user_badge=user_badge, username=username)
     
 # END rendering webpages
 

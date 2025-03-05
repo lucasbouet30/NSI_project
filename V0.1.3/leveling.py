@@ -1,18 +1,26 @@
 import math
-import sqlite3
 
 class leveling:
     def __init__(self):
-        self.BASE_XP = 100  # l'xp doit toujours être supérieur a 100 pour avoir un résultat positif
-        self.SCALING_FACTOR = 1.5  # Facteur pour augmenter la difficulté
+        self.BASE_XP = 100
+        self.SCALING_FACTOR = 1.5
         self.TITLES = {
-            1: "Apprenti", 
-            5: "Maestro", 
-            10: "Virtuose", 
-            15: "Disciple de Rhapsode", 
-            20: "Apôtre de Rhapsode", 
-            25: "Incarnation de Rhapsode"}
+            1: ["Apprenti", "static/assets/images/RankIcons/1_rank_icon.svg"],
+            5: ["Maestro", "static/assets/images/RankIcons/2_rank_icon.svg"],
+            10: ["Virtuose", "static/assets/images/RankIcons/3_rank_icon.svg"],
+            15: ["Disciple de Rhapsode", "static/assets/images/RankIcons/4_rank_icon.svg"],
+            20: ["Apôtre de Rhapsode", "static/assets/images/RankIcons/5_rank_icon.svg"],
+            25: ["Incarnation de Rhapsode", "static/assets/images/RankIcons/6_rank_icon.svg"],
+            "trop": ["Rhapsode", "static/assets/images/RankIcons/6_rank_icon.svg"]
+        }
+    def find_username(self, email):
+        """Extrait le nom d'utilisateur d'une adresse e-mail."""
+        parts = email.split('@')
+        # Retourner la partie avant le '@'
+        return parts[0]
+
         
+
     def calculate_lvl(self, exp):
         """Calcule le niveau basé sur l'expérience."""
         return int(math.log(exp / self.BASE_XP, self.SCALING_FACTOR) + 1)
@@ -25,43 +33,29 @@ class leveling:
     def get_title(self, exp):
         """Retourne le titre correspondant au niveau."""
         lvl = self.calculate_lvl(exp)
-        for title, expReq in enumerate(self.TITLES):
-            if lvl >= expReq:
-                return title
-        
 
-    def get_user_info(self, user_id):
-        """Récupère les informations de l'utilisateur depuis la base de données."""
-        conn = sqlite3.connect('rhapsody.db')
-        cursor = conn.cursor()
-        
-        cursor.execute('SELECT exp, lvl, title FROM users WHERE id = ?', (user_id,))
-        user_info = cursor.fetchone()
-        
-        conn.close()
-        
-        if user_info:
-            exp, lvl, title = user_info
-            next_lvl_xp = self.calculate_xp_for_next_lvl(lvl + 1)
-            return {
-                'exp': exp,
-                'lvl': lvl,
-                'title': title,
-                'next_lvl_xp': next_lvl_xp
-            }
-        return None
-
-    # Exemple d'utilisation
-    if __name__ == "__main__":
-        user_id = 1  # ID de l'utilisateur
-        current_exp = 15000  # Expérience actuelle de l'utilisateur
-
-        update_user_lvl(user_id, current_exp)
-        user_info = get_user_info(user_id)
-
-        if user_info:
-            print(f"Niveau actuel : {user_info['lvl']}")
-            print(f"Titre : {user_info['title']}")
-            print(f"XP : {user_info['exp']} / {user_info['next_lvl_xp']}")
+        reste = lvl % 5
+        if lvl <= 1:
+            return self.TITLES[1][0]
+        elif reste == 0:
+            return self.TITLES[lvl][0]
+        elif lvl > 25:
+            return self.TITLES['trop'][0]
         else:
-            print("Utilisateur non trouvé.")
+            print(lvl - reste)
+            return self.TITLES[lvl - reste][0]
+    
+    def get_badge(self, exp):
+        """Retourne le chemin vers le svg du badge correspondant au niveau."""
+        lvl = self.calculate_lvl(exp)
+
+        reste = lvl % 5
+        if lvl <= 1:
+            return self.TITLES[1][1]
+        elif reste == 0:
+            return self.TITLES[lvl][1]
+        elif lvl > 25:
+            return self.TITLES['trop'][1]
+        else:
+            print(lvl - reste)
+            return self.TITLES[lvl - reste][1]

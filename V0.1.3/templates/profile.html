@@ -111,17 +111,24 @@
               class="pfp"
             />
           </div>
-          <div class="user-title"><i>alias</i> TitreLorem Ipsumus</div>
+          <div class="user-title"><i>Titre : </i>{{ user_title }}</div>
         </div>
 
         <div class="profile-grid">
           <div class="fisrt-section">
-            <div class="pseudo">John Wick</div>
+            <div class="pseudo">{{ username }}</div>
           </div>
+        </div>
+      </div>
 
-          <div class="second-section">
-            <div></div>
-          </div>
+      <div class="second-section">
+        <div class="badge-container">
+          <img
+            src="{{ user_badge }}"
+            alt="Profil Utilisateur"
+            class="lvl-badge"
+          />
+          <span class="level-text">{{ exp }}</span>
         </div>
       </div>
     </main>
