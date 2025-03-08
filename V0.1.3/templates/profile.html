@@ -24,6 +24,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='assets/css/profile.css') }}"
     />
+    <script src="{{ url_for('static', filename='assets/js/upload.js') }}"></script>
   </head>
 
   <body>
@@ -94,22 +95,42 @@
 
     <main>
       <div class="stack">
+        <input
+          type="file"
+          id="pfp-upload"
+          accept="image/*"
+          style="display: none"
+        />
+        <input
+          type="file"
+          id="banner-upload"
+          accept="image/*"
+          style="display: none"
+        />
+
         <div class="banner-container">
           <div class="banner">
-            <img
-              src="{{ url_for('static', filename='assets/images/Banner.png') }}"
-              alt="Bannière Utilisateur"
-            />
+            <img src="{{ user_banner }}" alt="Bannière Utilisateur" />
+          </div>
+          <div class="change-banner">
+            <div class="upload">
+              <img
+                src="{{ url_for('static', filename='assets/images/upload.png') }}"
+              />
+            </div>
           </div>
         </div>
 
         <div class="pfp-grid">
           <div class="pfp-container">
-            <img
-              src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
-              alt="Profil Utilisateur"
-              class="pfp"
-            />
+            <img src="{{ user_pfp }}" alt="Profil Utilisateur" class="pfp" />
+            <div class="change-pfp">
+              <div class="upload">
+                <img
+                  src="{{ url_for('static', filename='assets/images/upload.png') }}"
+                />
+              </div>
+            </div>
           </div>
           <div class="user-title"><i>Titre : </i>{{ user_title }}</div>
         </div>
@@ -128,7 +149,7 @@
             alt="Profil Utilisateur"
             class="lvl-badge"
           />
-          <span class="level-text">{{ exp }}</span>
+          <span class="level-text">{{ lvl }}</span>
         </div>
       </div>
     </main>

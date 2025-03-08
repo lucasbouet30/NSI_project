@@ -13,6 +13,9 @@ import minechordify as chordify
 import minescrapper as scrapper
 import minefa2 as fa2
 import leveling
+
+import uuid
+from werkzeug.utils import secure_filename
 print("Current working directory:", os.getcwd())
 
 RESET = True
@@ -25,6 +28,17 @@ def hash_it(data):
     # utilisation de hashlib
     a = hashlib.md5(data.encode())
     return a.hexdigest() # return un string
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# def request_db(sql_request : str):
+#     '''Permet d'éviter les copy pasta'''
+#     con = get_db_connection() #ouvrir la base de donnée
+#     cur = con.cursor()       #faire un curseur, une sorte de lien
+#                             #executer la requète sql
+#     cur.execute(sql_request, (session["current_user"],)) 
+#     data = cur.fetchone() #récupérer le résultat de la requète
+#     con.close()          #fermer la base de donnée
+#     return data
     
 # END packages
 
@@ -34,6 +48,14 @@ def hash_it(data):
 
 # creation de l'instance de flask pour y acceder aux méthodes par exemple
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # END flask instance
 
@@ -64,12 +86,14 @@ def SQL(param):
     return ans
 """
 
-# creation d'une classe pour définir qu'est ce qu'un user (couple email / mot de passe)
+# creation d'une classe pour définir qu'est ce qu'un user 
 class User(flask_login.UserMixin):
-    def __init__(self, email, password, discordId=101):
+    def __init__(self, email, password, discordId=101, pfp_path=None, banner_path=None):
         self.id = email
         self.password = password
         self.discordId = discordId
+        self.pfp_path = pfp_path or 'assets/images/upload/pfps/empty-pfp.svg'
+        self.banner_path = banner_path or 'assets/images/upload/banners/empty-banner.svg'
 
     def reset_mdp(self, new_password):
         hashed_password = hash_it(new_password)
@@ -87,7 +111,7 @@ if RESET == True:
     cur = con.cursor()
     print(cur.execute('DELETE FROM Users WHERE EXISTS (SELECT 1 FROM Users);'))
     password_t = hash_it("testtest123.")
-    print(cur.execute(f'INSERT INTO Users(Id, Email, Password, Pp, Banner, Xp, DiscordId) VALUES (1, "test@gmail.com", "{password_t}", "None", "None", 1, 600288096046678036)'))
+    print(cur.execute(f'INSERT INTO Users(Id, Email, Password, Pp, Banner, Xp, DiscordId) VALUES (1, "test@gmail.com", "{password_t}", "assets/images/upload/pfps/empty-pfp.svg", "assets/images/upload/banners/empty-banner.svg", 100, 600288096046678036)'))
     con.commit()
     con.close()
     # end
@@ -342,6 +366,50 @@ def err404():
 def err500():
     return render_template('errors/5.html')
 
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    print("\n--- Début upload ---")
+    print("Fichier reçu:", request.files)
+    print("Type d'upload:", request.form.get('type'))
+    
+    if 'file' not in request.files: #erreur si pas de fichier
+        return jsonify(success=False, error="Aucun fichier sélectionné")
+    
+    file = request.files['file']
+    upload_type = request.form.get('type', 'pfp')
+    
+    if file.filename == '': #erreur si aucune correspondance
+        return jsonify(success=False, error="Aucun fichier sélectionné")
+    
+    if file and allowed_file(file.filename): #  fichier existe + extension valide
+
+        # secure -> Nettoie le nom de fichier (caractères spéciaux)
+        # uuid... -> identifiant UNIQUE de 32 cara
+        # .rsplit... -> récuperer + minusculé le fichier
+        filename = secure_filename(f"{uuid.uuid4().hex}.{file.filename.rsplit('.', 1)[1].lower()}")
+        subfolder = f'{upload_type}s'  # upload_type = "pfp" ou "banner"
+
+        save_path = os.path.join(app.config['UPLOAD_FOLDER'], subfolder, filename) # combiner tout pour faire le chemin
+        os.makedirs(os.path.dirname(save_path), exist_ok=True) #crée les dossiers nécessaires, NO error déjà existants
+        file.save(save_path) #écrit le contenu du fichier sur le disque dur
+        
+        db_path = f"uploads/{subfolder}/{filename}"
+        if upload_type == 'pfp':
+            column = 'Pp' 
+        else:
+            column = 'Banner'
+        
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('UPDATE Users SET ? = ? WHERE Email = ?', (column, db_path, (session["current_user"],)))
+        con.commit()
+        con.close()
+        
+        print("Fichier sauvegardé:", save_path) 
+        return jsonify(success=True, url=url_for('static', filename=db_path))
+    
+    return jsonify(success=False, error="Type de fichier non autorisé")
+
 @flask_login.login_required
 @app.route('/profile')
 def profile():
@@ -353,20 +421,32 @@ def profile():
     
     con = get_db_connection()
     cur = con.cursor()
-    cur.execute('SELECT Xp FROM Users WHERE Email=?', (session["current_user"],)) 
-    exp = cur.fetchone() # récuperer l'exp
-
-    cur.execute('SELECT Email FROM Users WHERE Email=?', (session["current_user"],)) 
-    email = cur.fetchone() # récuperer l'email
+    cur.execute('SELECT Xp, Pp, Banner, Email FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
     con.close()
 
-    user_title= user_level.get_title(exp[0]) # récuperer le titre
-    user_badge= user_level.get_badge(exp[0]) # récuperer le badge
-    username = user_level.find_username(email[0]) # récuperer l'username
+    exp = user_data[0]
+    lvl = user_level.calculate_lvl(exp)
+    email = user_data[3]
+    user_title= user_level.get_title(exp) 
+    user_badge= user_level.get_badge(exp)
+    username = user_level.find_username(email)
+
+    pfp_path = user_data[1] # récuperer le chemin pfp
+    banner_path = user_data[2] # récuperer le chemin bannière
+
+    user_pfp= url_for('static', filename=pfp_path)
+    user_banner= url_for('static', filename=banner_path)
 
     print(session['logged_in'])
-    return render_template('profile.html', exp=exp[0], user_title=user_title, user_badge=user_badge, username=username)
-    
+    return render_template('profile.html', 
+                           lvl = lvl, 
+                           user_title=user_title, 
+                           user_badge=user_badge, 
+                           username=username,
+                           user_pfp=user_pfp,
+                           user_banner=user_banner)
+
 # END rendering webpages
 
 # ----------
@@ -378,3 +458,4 @@ if __name__ == '__main__':
     app.run(debug=True)
     
 # END flask server starting
+

@@ -19,7 +19,6 @@ class leveling:
         # Retourner la partie avant le '@'
         return parts[0]
 
-        
 
     def calculate_lvl(self, exp):
         """Calcule le niveau basé sur l'expérience."""
