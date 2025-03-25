@@ -24,7 +24,8 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='assets/css/profile.css') }}"
     />
-    <script src="{{ url_for('static', filename='assets/js/upload.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='assets/js/upload.js') }}"></script> -->
+	
   </head>
 
   <body>
@@ -95,19 +96,25 @@
 
     <main>
       <div class="stack">
-        <input
-          type="file"
-          id="pfp-upload"
-          accept="image/*"
-          style="display: none"
-        />
-        <input
-          type="file"
-          id="banner-upload"
-          accept="image/*"
-          style="display: none"
-        />
-
+	    <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadFormPfp">
+		  <input type="text" name="typevar" style="display: none;" value="pfp" />
+		  <input type="file" name="file" id="pfp-upload" style="display: none;"/>
+          <input type="submit" style="display: none;"/>
+		</form>
+		
+		<form action="/upload" method="POST" enctype="multipart/form-data" id="uploadFormBanner">
+		  <input type="text" name="typevar" style="display: none;" value="banner" />
+          <input type="file" name="file" id="banner-upload" style="display: none;"/>
+          <input type="submit" style="display: none;"/>
+		<form>
+		<script>
+			document.getElementById('pfp-upload').addEventListener('change', function() {
+				document.getElementById('uploadFormPfp').submit();
+			});
+			document.getElementById('banner-upload').addEventListener('change', function() {
+				document.getElementById('uploadFormBanner').submit();
+			});
+		</script>
         <div class="banner-container">
           <div class="banner">
             <img src="{{ user_banner }}" alt="Bannière Utilisateur" />

@@ -13,12 +13,15 @@ import minechordify as chordify
 import minescrapper as scrapper
 import minefa2 as fa2
 import leveling
+from werkzeug.utils import secure_filename
+
 
 import uuid
 from werkzeug.utils import secure_filename
 print("Current working directory:", os.getcwd())
 
 RESET = True
+
 
 user_level = leveling.leveling()
         
@@ -49,9 +52,11 @@ def hash_it(data):
 # creation de l'instance de flask pour y acceder aux méthodes par exemple
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/assets/images/upload/pfps')
+app.config['UPLOAD_FOLDER_PFPS'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/assets/images/upload/banners')
+app.config['UPLOAD_FOLDER_BANNERS'] = UPLOAD_FOLDER
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -116,48 +121,6 @@ if RESET == True:
     con.close()
     # end
 
-
-
-# # permet de loads les datas au lancement du serveur flask (utilisateurs)
-# with open('data/users.pkl', 'rb') as file:
-    # # utilisation de pickle pour charger le tout dans un fichier .pkl (\data\users.pkl)
-    # users = pickle.load(file)
-# with open('data/vars.pkl','rb') as file1:
-    # # pareil
-    # varDB = pickle.load(file1) 
-
-
-# # fonction pour sauvegarder les utilisateurs
-# # e.g : ajouter un utilisateur lors du register et le mettre dans la database
-# def savedata():
-    # with open('data/users.pkl', 'wb') as file:
-        # # utilisation de pickle encore une fois
-        # pickle.dump(users, file)
-# # permet de sauvegarder les modifications (les variables)
-# def savemods():
-    # with open('data/vars.pkl', 'wb') as file:
-        # # utilisation de pickle encore une fois
-        # pickle.dump(varDB, file)
-        
-# END login function
-
-# ----------
-
-# START tests
-
-# # afficher la database
-# print(users)
-# print(varDB)
-# # la modifier avec juste un seul utilisateur pour le test 
-# varDB = {'test@gmail.com': {"el1":"coco", "el2":"cucu"}}
-# users = {'test@gmail.com':User('test@gmail.com',hash_it("testtest123."), 600288096046678036)}
-# # sauvegarder les données dans le fichier
-# savemods()
-# savedata()
-
-# END tests
-
-# ----------
 
 # START login pages / methods
 
@@ -368,47 +331,29 @@ def err500():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    print("\n--- Début upload ---")
-    print("Fichier reçu:", request.files)
-    print("Type d'upload:", request.form.get('type'))
-    
-    if 'file' not in request.files: #erreur si pas de fichier
-        return jsonify(success=False, error="Aucun fichier sélectionné")
-    
-    file = request.files['file']
-    upload_type = request.form.get('type', 'pfp')
-    
-    if file.filename == '': #erreur si aucune correspondance
-        return jsonify(success=False, error="Aucun fichier sélectionné")
-    
-    if file and allowed_file(file.filename): #  fichier existe + extension valide
-
-        # secure -> Nettoie le nom de fichier (caractères spéciaux)
-        # uuid... -> identifiant UNIQUE de 32 cara
-        # .rsplit... -> récuperer + minusculé le fichier
-        filename = secure_filename(f"{uuid.uuid4().hex}.{file.filename.rsplit('.', 1)[1].lower()}")
-        subfolder = f'{upload_type}s'  # upload_type = "pfp" ou "banner"
-
-        save_path = os.path.join(app.config['UPLOAD_FOLDER'], subfolder, filename) # combiner tout pour faire le chemin
-        os.makedirs(os.path.dirname(save_path), exist_ok=True) #crée les dossiers nécessaires, NO error déjà existants
-        file.save(save_path) #écrit le contenu du fichier sur le disque dur
-        
-        db_path = f"uploads/{subfolder}/{filename}"
-        if upload_type == 'pfp':
-            column = 'Pp' 
-        else:
-            column = 'Banner'
+    if 'file' in request.files:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        uuidimage = hash_it(filename)
+        filename = uuidimage + ".jpeg"
+        custom_variable = request.form.get('typevar')
         
         con = get_db_connection()
         cur = con.cursor()
-        cur.execute('UPDATE Users SET ? = ? WHERE Email = ?', (column, db_path, (session["current_user"],)))
-        con.commit()
-        con.close()
         
-        print("Fichier sauvegardé:", save_path) 
-        return jsonify(success=True, url=url_for('static', filename=db_path))
-    
-    return jsonify(success=False, error="Type de fichier non autorisé")
+        if 'pfp' == custom_variable:
+            folderchoosen = app.config['UPLOAD_FOLDER_PFPS']
+            cur.execute("UPDATE Users SET Pp = ? WHERE Email = ?;", (f'/assets/images/upload/pfps/{filename}', session["current_user"]))
+            con.commit()
+        elif 'banner' == custom_variable:
+            cur.execute("UPDATE Users SET Banner = ? WHERE Email = ?;", (f'/assets/images/upload/banners/{filename}', session["current_user"]))
+            con.commit()
+            folderchoosen = app.config['UPLOAD_FOLDER_BANNERS']
+        file.save(os.path.join(folderchoosen, filename))
+        
+        
+        
+    return redirect('profile')
 
 @flask_login.login_required
 @app.route('/profile')
