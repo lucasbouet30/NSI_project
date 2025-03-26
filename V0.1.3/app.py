@@ -14,14 +14,11 @@ import minescrapper as scrapper
 import minefa2 as fa2
 import leveling
 from werkzeug.utils import secure_filename
-
-
 import uuid
 from werkzeug.utils import secure_filename
 print("Current working directory:", os.getcwd())
 
 RESET = True
-
 
 user_level = leveling.leveling()
         
@@ -304,6 +301,14 @@ def dashboard():
 @app.route('/tools')
 def tools():
     return render_template('tools.html')
+@app.route('/toolsp', methods=['POST'])
+def toolsp():
+    chord_ = request.form.get("chordwanted")
+    chordnumber_ = request.form.get("chordnumber")
+    theChord = chordify.Chord(chord_)
+    theChordLink = theChord.format_number(int(chordnumber_))
+    print(theChordLink)
+    return render_template('tools.html', image_link=theChordLink)
     
 @app.route('/planning')
 def planning():
