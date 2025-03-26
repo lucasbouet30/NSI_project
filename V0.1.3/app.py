@@ -52,9 +52,9 @@ def hash_it(data):
 # creation de l'instance de flask pour y acceder aux méthodes par exemple
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/assets/images/upload/pfps')
+UPLOAD_FOLDER = 'static/assets/images/upload/pfps'
 app.config['UPLOAD_FOLDER_PFPS'] = UPLOAD_FOLDER
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/assets/images/upload/banners')
+UPLOAD_FOLDER = 'static/assets/images/upload/banners'
 app.config['UPLOAD_FOLDER_BANNERS'] = UPLOAD_FOLDER
 
 
