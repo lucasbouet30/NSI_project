@@ -20,14 +20,14 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='assets/css/footer.css') }}"
     />
-	<style>
-        .hidden-paragraph {
-            display: none;
-        }
+    <style>
+      .hidden-paragraph {
+        display: none;
+      }
 
-        .my-checkbox:checked ~ .hidden-paragraph {
-            display: block;
-        }
+      .my-checkbox:checked ~ .hidden-paragraph {
+        display: block;
+      }
     </style>
   </head>
 
@@ -90,7 +90,7 @@
         </ul>
         <a href="{{ url_for('profile') }}" target="_blank">
           <img
-            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            src="{{ user_pfp }}"
             alt="Profil Utilisateur"
             class="profile-pic"
         /></a>
@@ -106,10 +106,15 @@
           type="password"
           placeholder="min: 7 cara. & 1 nb"
         /><br />
-		<label>récupération de mot de passe par discordId (facultatif)</label>
-		<input type="checkbox" 	class="my-checkbox"/>
-		<input class="hidden-paragraph" name="discord-id" type="number" placeholder="123456789"/>
-		<br/>
+        <label>récupération de mot de passe par discordId (facultatif)</label>
+        <input type="checkbox" class="my-checkbox" />
+        <input
+          class="hidden-paragraph"
+          name="discord-id"
+          type="number"
+          placeholder="123456789"
+        />
+        <br />
         <button>Inscription</button>
       </form>
     </main>

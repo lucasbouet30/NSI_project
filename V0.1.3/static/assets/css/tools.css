@@ -1,0 +1,53 @@
+.hero {
+  display: grid;
+  text-align: center;
+  user-select: none;
+}
+
+.hero h3 {
+  letter-spacing: 1px;
+  font-size: 2.6rem;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 0.5rem;
+
+  transition: color 0.618s ease;
+}
+.hero h3:hover {
+  color: coral;
+}
+
+.hero span {
+  font-size: 2.6rem / 1.618;
+}
+
+.hero img {
+  height: 38vm;
+  width: 38vm;
+}
+
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  background-color: coral;
+  border-radius: 10%;
+  color: white;
+  text-decoration: none;
+  padding: 10px 10px;
+  margin: 1px 1px;
+  cursor: pointer;
+  border: 2px solid coral;
+  margin-left: 7vw;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 10px 10px;
+  margin: 1px 1px;
+  border-radius: 5px;
+  border: 2px solid coral;
+}
+
+input[placeholder] {
+  font-style: italic;
+}

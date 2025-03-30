@@ -4,7 +4,6 @@
 import sqlite3
 from flask import *
 import flask_login
-import json
 import dill as pickle
 import hashlib
 import re
@@ -14,7 +13,6 @@ import minescrapper as scrapper
 import minefa2 as fa2
 import leveling
 from werkzeug.utils import secure_filename
-import uuid
 from werkzeug.utils import secure_filename
 print("Current working directory:", os.getcwd())
 
@@ -53,11 +51,6 @@ UPLOAD_FOLDER = 'static/assets/images/upload/pfps'
 app.config['UPLOAD_FOLDER_PFPS'] = UPLOAD_FOLDER
 UPLOAD_FOLDER = 'static/assets/images/upload/banners'
 app.config['UPLOAD_FOLDER_BANNERS'] = UPLOAD_FOLDER
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # END flask instance
 
@@ -203,7 +196,15 @@ def loginp():
     session["logged_in"] = True
     flask_login.login_user(user, remember=remind)
     flash("Bon retour parmis nous!")
-    return redirect(url_for("profile"))
+
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return redirect(url_for("profile"), user_pfp=user_pfp)
     
 # END login pages / methods
 
@@ -280,7 +281,15 @@ def home():
     if server_on_start == False:
         session['logged_in'] = False
         server_on_start = True
-    return render_template('index.html')
+    
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('index.html', user_pfp=user_pfp)
     
 @app.errorhandler(403)
 def forbidden_error(error):
@@ -292,15 +301,56 @@ def forbidden_error(error):
     
 @app.route('/learning')
 def learning():
-    return render_template('learning.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('learning.html', user_pfp=user_pfp)
     
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('dashboard.html', user_pfp=user_pfp)
     
 @app.route('/tools')
 def tools():
-    return render_template('tools.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Xp, Pp, Banner, Email FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+
+    exp = user_data[0]
+    lvl = user_level.calculate_lvl(exp)
+    email = user_data[3]
+    user_title= user_level.get_title(exp) 
+    user_badge= user_level.get_badge(exp)
+    username = user_level.find_username(email)
+
+    pfp_path = user_data[1] # récuperer le chemin pfp
+    banner_path = user_data[2] # récuperer le chemin bannière
+
+    user_pfp= url_for('static', filename=pfp_path)
+    user_banner= url_for('static', filename=banner_path)
+
+    print(session['logged_in'])
+    return render_template('tools.html', 
+                           lvl = lvl, 
+                           user_title=user_title, 
+                           user_badge=user_badge, 
+                           username=username,
+                           user_pfp=user_pfp,
+                           user_banner=user_banner)
+
 @app.route('/toolsp', methods=['POST'])
 def toolsp():
     chord_ = request.form.get("chordwanted")
@@ -308,19 +358,48 @@ def toolsp():
     theChord = chordify.Chord(chord_)
     theChordLink = theChord.format_number(int(chordnumber_))
     print(theChordLink)
-    return render_template('tools.html', image_link=theChordLink)
+
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('tools.html', image_link=theChordLink, user_pfp=user_pfp)
     
 @app.route('/planning')
 def planning():
-    return render_template('planning.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('planning.html', user_pfp=user_pfp)
     
 @app.route('/2fareset')
 def fa2reset():
-    return render_template('2fareset.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('2fareset.html', user_pfp=user_pfp)
     
 @app.route('/support')
 def support():
-    return render_template('support.html')
+    con = get_db_connection()
+    cur = con.cursor()
+    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+    user_data = cur.fetchone()
+    con.close()
+    pfp_path = user_data[0]
+    user_pfp= url_for('static', filename=pfp_path)   
+    return render_template('support.html', user_pfp=user_pfp)
 
 @app.route('/403')
 def err403():

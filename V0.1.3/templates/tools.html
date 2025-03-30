@@ -20,6 +20,10 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='assets/css/footer.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/tools.css') }}"
+    />
   </head>
 
   <body>
@@ -81,7 +85,7 @@
         </ul>
         <a href="{{ url_for('profile') }}" target="_blank">
           <img
-            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            src="{{ user_pfp }}"
             alt="Profil Utilisateur"
             class="profile-pic"
         /></a>
@@ -89,12 +93,20 @@
     </nav>
 
     <main>
-      <form action="/toolsp" method="POST" enctype="multipart/form-data" id="chordForm">
-		<input type="text" name="chordwanted" placeholder="-- Type the chord here --"/>
-		<input type="number" name="chordnumber" min="1" max="4"/>
-		<input type="submit" text="submit"/>
-	  </form>
-	  <img src={{ image_link }} style="height: 500px ;width: 500px;" alt="displayedChord"></img>
+        <div class="hero">
+          <h3>Repertoire d'accords</h3>
+          <div>
+            <form action="/toolsp" method="POST" enctype="multipart/form-data" id="chordForm">
+              <input type="text" name="chordwanted" placeholder="Ecrivez l'accord ici"/>
+              <input type="number" name="chordnumber" min="1" max="4" placeholder="X"/>
+              <input type="submit" text="submit"/>
+              </form>
+              {% if not disable %}
+                <img class="accord" src="{{ image_link }}"></img>
+              {% endif %}
+          </div>
+        </div>
+
     </main>
 
     <footer class="footer">

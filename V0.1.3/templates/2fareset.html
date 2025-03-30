@@ -81,7 +81,7 @@
         </ul>
         <a href="{{ url_for('profile') }}" target="_blank">
           <img
-            src="{{ url_for('static', filename='assets/images/empty-profile.jpg') }}"
+            src="{{ user_pfp }}"
             alt="Profil Utilisateur"
             class="profile-pic"
         /></a>
@@ -89,42 +89,36 @@
     </nav>
 
     <main>
-		<a href="https://discord.com/oauth2/authorize?client_id=1319289424248307723">Ajoutez notre bot sur discord ;)</a>
-			<form method="post">
-				Email : <input name="email" placeholder="rhapsopy@exemple.com" /><br />
-				<button name="send_message">Envoyer le code</button>
-			</form>
-			{% with messages = get_flashed_messages(with_categories=True) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						{% if category == "erroremail" %}<p style="color:red;">{{ message }}</p>{% endif %}
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<form method="post">
-				Code : <input name="input_code" placeholder="AZERTYY" /><br />
-				<button name="validate_code">Valider</button>
-			</form>
-			{% with messages = get_flashed_messages(with_categories=True) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						{% if category == "validcode" and message != "ok" %}<p style="color:red;">{{ message }}</p>{% endif %}
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			
-			{% with messages = get_flashed_messages(with_categories=True) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						{% if category == "validcode" and message == "ok" %}
-							<form method="post">
-								Nouveau mot de passe : <input name="mdp" placeholder="AZERTYY" /><br />
-								<button name="reset_password">changer le mot de passe</button>
-							</form>
-						{% endif %}
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
+      <a
+        href="https://discord.com/oauth2/authorize?client_id=1319289424248307723"
+        >Ajoutez notre bot sur discord ;)</a
+      >
+      <form method="post">
+        Email : <input name="email" placeholder="rhapsopy@exemple.com" /><br />
+        <button name="send_message">Envoyer le code</button>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=True) %} {% if
+      messages %} {% for category, message in messages %} {% if category ==
+      "erroremail" %}
+      <p style="color: red">{{ message }}</p>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
+      <form method="post">
+        Code : <input name="input_code" placeholder="AZERTYY" /><br />
+        <button name="validate_code">Valider</button>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=True) %} {% if
+      messages %} {% for category, message in messages %} {% if category ==
+      "validcode" and message != "ok" %}
+      <p style="color: red">{{ message }}</p>
+      {% endif %} {% endfor %} {% endif %} {% endwith %} {% with messages =
+      get_flashed_messages(with_categories=True) %} {% if messages %} {% for
+      category, message in messages %} {% if category == "validcode" and message
+      == "ok" %}
+      <form method="post">
+        Nouveau mot de passe : <input name="mdp" placeholder="AZERTYY" /><br />
+        <button name="reset_password">changer le mot de passe</button>
+      </form>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
     </main>
 
     <footer class="footer">
