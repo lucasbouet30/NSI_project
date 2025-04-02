@@ -1,0 +1,137 @@
+.stack {
+  position: relative;
+  width: 100%;
+  top: 2vw;
+  margin-bottom: 6vw;
+}
+
+/* bannière */
+.banner-container {
+  width: 100%;
+  height: 15vw; /* même hauteur que la pfp */
+  overflow: hidden; /* crop les bords */
+  position: relative;
+  z-index: 1;
+}
+.change-banner,
+.change-pfp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+.banner {
+  height: 100%;
+}
+.banner img {
+  margin-left: 10vw;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* photo de profil */
+.pfp-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 25.5% 74.5%;
+  width: 100%;
+}
+.pfp-container {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* ratio carré */
+  position: relative;
+  z-index: 2;
+}
+.pfp {
+  position: absolute;
+  pointer-events: none; /* Permet les interactions avec la bannière */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1vw #fff;
+}
+.pfp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.user-title {
+  align-content: end;
+  margin-left: 2.5vw;
+  font-size: 3vw;
+  letter-spacing: 0.1vw;
+}
+.user-title i {
+  font-size: 70%;
+}
+.change-pfp {
+  border-radius: 50%;
+}
+.banner-container:hover .change-banner,
+.pfp-container:hover .change-pfp {
+  opacity: 1;
+}
+.change-pfp img {
+  width: 9vw;
+}
+.change-banner img {
+  width: 6vw;
+}
+
+/* reste du profil */
+.profile-grid {
+  margin-top: 9%;
+  display: grid;
+  grid-template-columns: 25.5% 74.5%;
+}
+
+/* bord gauche */
+.first-section {
+  width: 100%;
+}
+.pseudo {
+  font-size: 3vw;
+  text-align: center;
+}
+
+/* bord droit */
+.first-section {
+  width: 100%;
+}
+
+/* badge de niveau */
+.second-section {
+  margin-left: 12.9vw;
+  margin-top: -17vw;
+}
+.badge-container {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+}
+.lvl-badge {
+  width: 11vw;
+}
+.level-text {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2vw;
+  font-weight: bold;
+  color: #422b1c;
+}
