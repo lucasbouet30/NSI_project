@@ -1,2 +1,8 @@
 flask
 flask-login
+dill
+gunicorn
+discord
+python-dotenv
+bs4
+requests
