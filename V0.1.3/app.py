@@ -170,7 +170,18 @@ def registerp():
 @app.get("/login")
 def login():
     # flask render_template method
-    return render_template('login.html')
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)
+    return render_template('login.html', user_pfp=user_pfp)
     
 print('Compte test : \n test@gmail.com \n testtest123.') #pour avoir le compte test sur le terminal coté dev
 
@@ -196,15 +207,7 @@ def loginp():
     session["logged_in"] = True
     flask_login.login_user(user, remember=remind)
     flash("Bon retour parmis nous!")
-
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
-    return redirect(url_for("profile"), user_pfp=user_pfp)
+    return redirect(url_for("profile"))
     
 # END login pages / methods
 
@@ -282,13 +285,17 @@ def home():
         session['logged_in'] = False
         server_on_start = True
     
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)   
     return render_template('index.html', user_pfp=user_pfp)
     
 @app.errorhandler(403)
@@ -312,13 +319,17 @@ def learning():
     
 @app.route('/dashboard')
 def dashboard():
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)
     return render_template('dashboard.html', user_pfp=user_pfp)
     
 @app.route('/tools')
@@ -370,35 +381,47 @@ def toolsp():
     
 @app.route('/planning')
 def planning():
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)   
     return render_template('planning.html', user_pfp=user_pfp)
     
 @app.route('/2fareset')
 def fa2reset():
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)   
     return render_template('2fareset.html', user_pfp=user_pfp)
     
 @app.route('/support')
 def support():
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
-    user_data = cur.fetchone()
-    con.close()
-    pfp_path = user_data[0]
-    user_pfp= url_for('static', filename=pfp_path)   
+    if session['logged_in'] == True:
+        con = get_db_connection()
+        cur = con.cursor()
+        cur.execute('SELECT Pp FROM Users WHERE Email=?', (session["current_user"],)) 
+        user_data = cur.fetchone()
+        con.close()
+        pfp_path = user_data[0]
+        user_pfp= url_for('static', filename=pfp_path)
+    else:
+        pfp_path = 'assets/images/upload/pfps/empty-pfp.svg'
+        user_pfp= url_for('static', filename=pfp_path)
     return render_template('support.html', user_pfp=user_pfp)
 
 @app.route('/403')
@@ -433,10 +456,7 @@ def upload_file():
             cur.execute("UPDATE Users SET Banner = ? WHERE Email = ?;", (f'/assets/images/upload/banners/{filename}', session["current_user"]))
             con.commit()
             folderchoosen = app.config['UPLOAD_FOLDER_BANNERS']
-        file.save(os.path.join(folderchoosen, filename))
-        
-        
-        
+        file.save(os.path.join(folderchoosen, filename))    
     return redirect('profile')
 
 @flask_login.login_required
